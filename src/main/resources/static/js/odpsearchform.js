@@ -20,7 +20,6 @@ document.addEventListener('alpine:init', () => {
             async init() {
                 await this.fetchDistributionManagers();
                 this.initializeDistributionManagerMultiSelect();
-                this.setupPaginationLoaderObserver();
 
                 const clientInput = document.getElementById('client');
                 if (clientInput) {
@@ -81,23 +80,6 @@ document.addEventListener('alpine:init', () => {
                       }
                     }
                   ],
-
-            // Grid
-            setupPaginationLoaderObserver() {
-            // This will position the loader correctly when pagination controls are rendered
-                this.$watch('paginationLoading', (value) => {
-                if (value && this.grid) {
-                    this.$nextTick(() => {
-                        const paginationContainer = document.querySelector('.gridjs-pagination');
-                        if (paginationContainer) {
-                            const loader = document.getElementById('pagination-loader');
-                            paginationContainer.style.position = 'relative';
-                            paginationContainer.appendChild(loader);
-                        }
-                    });
-                }
-                });
-            },
 
 
             validateSearch() {
