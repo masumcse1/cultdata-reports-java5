@@ -126,7 +126,6 @@ document.addEventListener('alpine:init', () => {
             const gridContainer = document.getElementById('results-grid');
             if (!gridContainer) return;
 
-            // Initialize Grid.js
             this.grid = new gridjs.Grid({
                 columns: this.gridColumns,
                 server: {
@@ -179,13 +178,9 @@ document.addEventListener('alpine:init', () => {
                 className: { table: 'table table-striped table-bordered' }
             }).render(gridContainer);
 
-
     },
 
 
-            /**
-            * Updates the summary footer with current page data
-            */
             updateSummary() {
                 const tbody = document.querySelector(".gridjs-table tbody");
                 if (!tbody) return;
