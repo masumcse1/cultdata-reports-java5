@@ -152,7 +152,11 @@ document.addEventListener('alpine:init', () => {
                         if (gridContainer) {
                             const observer = new MutationObserver(() => this.updateSummary());
                             observer.observe(gridContainer, { childList: true, subtree: true });
-                            this.updateSummary();
+
+                            setTimeout(() => {
+                               this.updateSummary();
+                              }, 0);
+
                         }
                         return this.results.map((item) => [
                             item.client?.id || '',
