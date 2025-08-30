@@ -130,6 +130,7 @@ document.addEventListener('alpine:init', () => {
                     }
 
                     this.validationMessage = '';
+
                     this.renderGrid();
                     },
 
@@ -208,12 +209,24 @@ document.addEventListener('alpine:init', () => {
                 if (!tbody) return;
 
                 // Calculate sum of client IDs for visible rows (current page)
-                let visibleClientIdSum = 0;
+                let visibleClientIdSum = 0 ,countdmMountCount =0 ,countDMName = 0;
                 const visibleRows = Array.from(tbody.querySelectorAll("tr")).forEach(row => {
 
                 const clientIdCell = row.children[0]?.textContent.trim();
+
+
                 const clientId = parseInt(clientIdCell) || 0;
                 visibleClientIdSum += clientId;
+
+                const dmIdValue = row.children[2]?.textContent?.trim() ;
+                if (dmIdValue > 0) countdmMountCount++;
+
+
+                const dmNameValue = row.children[2]?.textContent?.trim() ;
+                                if (dmNameValue > 0) countDMName++;
+
+
+
 
                 });
 
@@ -224,8 +237,8 @@ document.addEventListener('alpine:init', () => {
                                 <tr>
                                        <td>Grand Total: ${this.totalClientIdSum}</td>
                                        <td>${visibleClientIdSum}</td>
-                                       <td>p581</td>
-                                       <td>y582</td>
+                                       <td>${countdmMountCount}</td>
+                                       <td>${countDMName}</td>
                                        <td>z583</td>
                                        <td>z583</td>
                                  </tr>
