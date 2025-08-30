@@ -133,72 +133,71 @@ document.addEventListener('alpine:init', () => {
                     this.renderGrid();
                     },
 
-                    renderGrid() {
-                    try {
-                    if (this.grid) {
-                    this.grid.destroy();
-                    }
-                    this.loading = true;
+    renderGrid() {
+        try {
+            if (this.grid) {
+                this.grid.destroy();
+            }
 
-                    const gridContainer = document.getElementById('results-grid');
-                    if (!gridContainer) return;
+            this.loading = true;
+            const gridContainer = document.getElementById('results-grid');
+            if (!gridContainer) return;
 
-                    this.grid = new gridjs.Grid({
-                    columns: this.gridColumns,
-                    server: {
-                         url: '/odp/api/odp-result-page',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        then: data => {
-                            this.loading = false;
-                            this.paginationLoading = false;
-                            this.results = data.data || [];
-                            this.totalRecords = data.totalRecords || 0;
-                            this.totalPages = data.totalPages || 1;
-                            this.totalClientIdSum = this.calculateTotalClientIdSum(data.allData || this.results);
-                            this.$nextTick(() => {
-                                this.updateSummary();
-                            });
-                            return this.results.map(item => [
-                                item.client?.id || '',
-                                item.client?.name || '',
-                                item.dmId || '',
-                                item.dmName || '',
-                                item.month || '',
-                                item.pdf || null
-                            ]);
-                        },
-                        total: data => data.totalRecords || 0,
-                        body: JSON.stringify(this.searchDTO)
-                    },
-                    pagination: {
-                        enabled: true,
-                        limit: this.limit,
-                        server: {
-                            url: (prev, page, limit) => `${prev}?limit=${limit}&page=${page + 1}`
+            // Initialize Grid.js
+            this.grid = new gridjs.Grid({
+                columns: this.gridColumns,
+                server: {
+                    url: '/odp/api/odp-result-page',
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(this.searchDTO),
+                    then: (data) => {
+                        this.loading = false;
+                        this.paginationLoading = false;
+                        this.results = data.data ?? [];
+                        this.totalRecords = data.totalRecords ?? 0;
+                        this.totalPages = data.totalPages ?? 1;
+                        this.totalClientIdSum = this.calculateTotalClientIdSum(data.data ?? []);
+                        if (gridContainer) {
+                            const observer = new MutationObserver(() => this.updateSummary());
+                            observer.observe(gridContainer, { childList: true, subtree: true });
+                            this.updateSummary();
                         }
+                        return this.results.map((item) => [
+                            item.client?.id || '',
+                            item.client?.name || '',
+                            item.dmId || '',
+                            item.dmName || '',
+                            item.month || '',
+                            item.pdf || null
+                        ]);
                     },
-                    search: true,
-                    sort: true,
-                    fixedHeader: true,
-                    className: { table: 'table table-striped table-bordered' }
-
+                     total: (data) => data.totalRecords ?? 0
+                },
+                pagination: {
+                    enabled: true,
+                    limit: this.limit,
+                    server: {
+                        url: (prev, page, limit) => `${prev}?limit=${limit}&page=${page + 1}`
+                    }
+                },
+                search: true,
+                sort: true,
+                fixedHeader: true,
+                className: { table: 'table table-striped table-bordered' }
             }).render(gridContainer);
 
-            // Set up event listeners for grid changes
-            this.grid.on('ready', () => this.updateSummary());
-            this.grid.on('pageChanged', () => this.updateSummary());
-            this.grid.on('sort', () => this.updateSummary());
-            this.grid.on('search', () => this.updateSummary());
+            // Update summary on Grid.js events
+            ['ready', 'pageChanged', 'sort', 'search'].forEach((event) =>
+                this.grid.on(event, () => this.updateSummary())
+            );
 
-            } catch (error) {
+        } catch (error) {
             this.loading = false;
             this.paginationLoading = false;
             this.validationMessage = `Failed to display results: ${error.message}`;
-            }
-            },
+        }
+    },
 
 
             /**
