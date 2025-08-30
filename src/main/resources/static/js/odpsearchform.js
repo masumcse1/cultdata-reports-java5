@@ -172,7 +172,7 @@ document.addEventListener('alpine:init', () => {
                             item.pdf || null
                         ]);
                     },
-                     total: (data) => data.totalRecords ?? 0
+                       total: (data) => data.totalRecords ?? 0
                 },
                 pagination: {
                     enabled: true,
