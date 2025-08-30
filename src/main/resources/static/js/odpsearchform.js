@@ -179,11 +179,6 @@ document.addEventListener('alpine:init', () => {
                 className: { table: 'table table-striped table-bordered' }
             }).render(gridContainer);
 
-            // Update summary on Grid.js events
-            ['ready', 'pageChanged', 'sort', 'search'].forEach((event) =>
-                this.grid.on(event, () => this.updateSummary())
-            );
-
 
     },
 
