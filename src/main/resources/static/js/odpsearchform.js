@@ -159,8 +159,6 @@ document.addEventListener('alpine:init', () => {
                        const cardBody = document.getElementById("resultdiv");
                        if (data.isDataNotExists) {
                            if (cardBody)  cardBody.style.display = "none"; //Hide
-
-
                            return [];
                        } else {
                            if (cardBody)  cardBody.style.display = "block"; //Show
