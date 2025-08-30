@@ -135,7 +135,7 @@ document.addEventListener('alpine:init', () => {
                     },
 
     renderGrid() {
-        try {
+
             if (this.grid) {
                 this.grid.destroy();
             }
@@ -202,11 +202,7 @@ document.addEventListener('alpine:init', () => {
                 this.grid.on(event, () => this.updateSummary())
             );
 
-        } catch (error) {
-            this.loading = false;
-            this.paginationLoading = false;
-            this.validationMessage = `Failed to display results: ${error.message}`;
-        }
+
     },
 
 
