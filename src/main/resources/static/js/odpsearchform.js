@@ -212,26 +212,22 @@ document.addEventListener('alpine:init', () => {
                 const dmNameValue = row.children[2]?.textContent?.trim() ;
                                 if (dmNameValue > 0) countDMName++;
 
-
-
-
                 });
 
                 const footer = document.getElementById("summary-footer");
-                footer.innerHTML = `
-                <table class="table table-bordered summary-card">
-                            <tbody>
-                                <tr>
-                                       <td>Grand Total: ${this.totalClientIdSum}</td>
-                                       <td>${visibleClientIdSum}</td>
-                                       <td>${countdmMountCount}</td>
-                                       <td>${countDMName}</td>
-                                       <td>z583</td>
-                                       <td>z583</td>
-                                 </tr>
-                            </tbody>
-                </table>
-                `;
+                footer.innerHTML = ` <table class="table table-bordered summary-card">
+                                        <tbody>
+                                            <tr>
+                                                   <td>Grand Total: ${this.totalClientIdSum}</td>
+                                                   <td>${visibleClientIdSum}</td>
+                                                   <td>${countdmMountCount}</td>
+                                                   <td>${countDMName}</td>
+                                                   <td>z583</td>
+                                                   <td>z583</td>
+                                             </tr>
+                                        </tbody>
+                                      </table>
+                                    `;
             },
 
             calculateTotalClientIdSum(data) {
@@ -239,22 +235,6 @@ document.addEventListener('alpine:init', () => {
                     const clientId = parseInt(item.client?.id) || 0;
                     return sum + clientId;
                 }, 0);
-            },
-
-            clearResults() {
-                this.results = [];
-                this.totalRecords = 0;
-                this.totalPages = 0;
-                if (this.grid) {
-                    try {
-                        this.grid.updateConfig({
-                            data: []
-                        }).forceRender();
-                    } catch (error) {}
-                }
-                // Clear summary footer
-                const footer = document.getElementById('summary-footer');
-                if (footer) footer.innerHTML = '';
             },
 
             clearForm() {
