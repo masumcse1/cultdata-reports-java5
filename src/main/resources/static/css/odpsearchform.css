@@ -1,0 +1,71 @@
+/* Progress Container (centered overlay) */
+#progressContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7); /* semi-transparent white */
+  z-index: 1050;
+}
+
+/* Blue Circular Loader */
+#loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+/* Keyframes for rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pagination Loader Styles */
+#pagination-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.gridjs-pagination {
+    position: relative;
+    min-height: 1px;
+}
+
+
+
+ body { background-color: #f8f9fa; margin: 0; padding: 20px; }
+    .container-fluid, #grid-table, #summary-footer, .gridjs-wrapper, .gridjs-container, .gridjs-table {
+      margin: 0 !important; padding: 0 !important;
+    }
+
+    /* Summary footer styling */
+    #summary-footer { background-color: #ffffff; padding: 0; margin: 0; }
+    #summary-footer table, #summary-footer table td, #summary-footer table tr {
+      background-color: #ffffff !important;
+      border-collapse: collapse;
+      text-align: center;
+      vertical-align: middle;
+      padding: 5px;
+    }
+
+    #summary-footer table td:first-child { text-align: left; font-weight: bold; padding-left: 10px; }
+    #summary-footer table { width: 100%; table-layout: fixed; margin: 0; border-collapse: collapse; }

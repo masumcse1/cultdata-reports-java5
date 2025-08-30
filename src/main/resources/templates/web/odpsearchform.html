@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Distribution Performance Search</title>
+    <link href="/css/odpsearchform.css" rel="stylesheet">
+    <link href="/css/tomselect-custom.css" rel="stylesheet">
+</head>
+<body>
+
+<div layout:fragment="content" >
+    <section class="content">
+        <div class="container-fluid" x-data="odpApp()" x-init="init()">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Online Distribution Performance Report</h3>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div x-show="loading" id="progressContainer">
+                    <div id="loader"></div>
+                </div>
+
+                <div x-show="validationMessage" class="row justify-content-center mb-1">
+                    <div class="col-md-4 text-center">
+                        <div class="alert alert-danger" x-text="validationMessage"></div>
+                    </div>
+                </div>
+
+                <form @submit.prevent="searchOdp" id="odpForm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3 row align-items-center">
+                                    <label for="client" class="col-md-2 col-form-label">CultSwitch Property Id</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="client" x-model="searchDTO.client"
+                                               class="form-control" placeholder="Enter CultSwitch Property Id"
+                                               title="Please enter only numbers (0-9)." pattern="[0-9]*" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row align-items-center">
+                                    <label for="selectBoxDistributionManager" class="col-md-2 col-form-label">Distribution Manager(s)</label>
+                                    <div class="col-md-4">
+                                        <div id="selectBoxDistributionManager"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <button type="button" class="btn btn-secondary ms-2" @click="clearForm">
+                            <i class="fas fa-broom"></i> Clear
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- RESULTS SECTION -->
+            <div class="card card-secondary mt-4" x-show="results && results.length > 0">
+                <div class="card-body p-0">
+                    <div id="pagination-loader" class="pagination-loader" x-show="paginationLoading" x-transition>Loading...</div>
+                    <div id="results-grid"></div>
+                    <div id="summary-footer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<th:block layout:fragment="script">
+    <script src="/js/odpsearchform.js"></script>
+</th:block>
+
+</body>
+</html>
