@@ -35,6 +35,16 @@ public class OnlineDistributionPerformanceSearchService implements IOnlineDistri
         Integer dmID =  dto.getDistributionManagers().get(0);
         ReportPage latestOdprReports = cultDataRestClientForOdpr.getLatestOdprReportsByDmID(dto.getPage(),dto.getSize(),dmID);
 
+        latestOdprReports.getData().forEach(report -> {
+            report.setDmId(1001);
+            report.setDmName("masum");
+            try {
+                report.setMonth(DateUtil.monthFormat(report.getMonth()));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         /*try {
 

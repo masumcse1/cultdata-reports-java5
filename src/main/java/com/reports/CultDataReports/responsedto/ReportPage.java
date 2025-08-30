@@ -14,6 +14,7 @@ public class ReportPage {
     private Integer totalPages;
     private List<ReportDto> data;
     private Integer totalRecords;
+    private Boolean isDataNotExists;
 
     public ReportPage() {
     }

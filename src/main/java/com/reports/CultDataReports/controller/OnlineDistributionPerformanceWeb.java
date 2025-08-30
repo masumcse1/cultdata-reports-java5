@@ -54,13 +54,22 @@ public class OnlineDistributionPerformanceWeb {
         request.setSize(limit);
 
         ReportPage reportPage= null;
-       if (request.getClient() == null) {
-           reportPage = odpSearchService.getLatestReportsByDmID(request);
-        } else {
-           reportPage = odpSearchService.getLatestReportsByClientID(request);
+
+        try {
+            if (request.getClient() == null) {
+                reportPage = odpSearchService.getLatestReportsByDmID(request);
+            } else {
+                reportPage = odpSearchService.getLatestReportsByClientID(request);
+            }
+            reportPage.setIsDataNotExists(Boolean.FALSE);
+        }catch (Exception exception){
+            reportPage = new ReportPage();
+            reportPage.setIsDataNotExists(Boolean.TRUE);
+            return ResponseEntity.ok(reportPage);
         }
 
-       Thread.sleep(1000);
+
+       Thread.sleep(2000);
 
         logger.info("ODP search request --end");
         return ResponseEntity.ok(reportPage);

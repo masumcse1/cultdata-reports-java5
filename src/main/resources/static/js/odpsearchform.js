@@ -153,8 +153,19 @@ document.addEventListener('alpine:init', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(this.searchDTO),
                     then: (data) => {
-                        this.loading = false;
-                        this.paginationLoading = false;
+                       this.loading = false;
+                       this.paginationLoading = false;
+
+                       const cardBody = document.getElementById("resultdiv");
+                       if (data.isDataNotExists) {
+                           if (cardBody)  cardBody.style.display = "none"; //Hide
+
+
+                           return [];
+                       } else {
+                           if (cardBody)  cardBody.style.display = "block"; //Show
+                       }
+
                         this.results = data.data ?? [];
                         this.totalRecords = data.totalRecords ?? 0;
                         this.totalPages = data.totalPages ?? 1;
