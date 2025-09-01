@@ -10,7 +10,6 @@ document.addEventListener('alpine:init', () => {
             distributionManagers: [],
             results: [],
             getSelectedDistributionManagerIds: null,
-            paginationLoading: false,
             totalRecords: 0,
             totalPages: 0,
             currentPage: 1,
@@ -135,7 +134,6 @@ document.addEventListener('alpine:init', () => {
                     body: JSON.stringify(this.searchDTO),
                     then: (data) => {
                        this.loading = false;
-                       this.paginationLoading = false;
 
                        const cardBody = document.getElementById("resultdiv");
                        if (data.isDataNotExists) {
