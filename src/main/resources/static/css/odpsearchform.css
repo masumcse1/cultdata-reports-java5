@@ -50,14 +50,33 @@
     min-height: 1px;
 }
 
- body { background-color: #f8f9fa; margin: 0; padding: 20px; }
-    .container-fluid, #grid-table, #summary-footer, .gridjs-wrapper, .gridjs-container, .gridjs-table {
-      margin: 0 !important; padding: 0 !important;
+
+    body {
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 20px;
+      }
+
+    .container-fluid,
+       #grid-table,
+       #summary-footer,
+      .gridjs-wrapper,
+      .gridjs-container,
+      .gridjs-table {
+       margin: 0 !important;
+       padding: 0 !important;
     }
 
     /* Summary footer styling */
-    #summary-footer { background-color: #ffffff; padding: 0; margin: 0; }
-    #summary-footer table, #summary-footer table td, #summary-footer table tr {
+    #summary-footer {
+      background-color: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    #summary-footer table,
+    #summary-footer table tr,
+    #summary-footer table td {
       background-color: #ffffff !important;
       border-collapse: collapse;
       text-align: center;
@@ -65,5 +84,15 @@
       padding: 5px;
     }
 
-    #summary-footer table td:first-child { text-align: left; font-weight: bold; padding-left: 10px; }
-    #summary-footer table { width: 100%; table-layout: fixed; margin: 0; border-collapse: collapse; }
+    #summary-footer table {
+      width: 100%;
+      table-layout: fixed;
+      margin: 0;
+      border-collapse: collapse;
+    }
+
+    #summary-footer table td:first-child {
+      text-align: left;
+      font-weight: bold;
+      padding-left: 10px;
+    }
