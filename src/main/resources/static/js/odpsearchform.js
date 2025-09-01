@@ -62,6 +62,23 @@ document.addEventListener('alpine:init', () => {
                });
             },
 
+
+           validateSearch() {
+                           this.validationMessage = '';
+
+                           if (!this.searchDTO.client && this.searchDTO.distributionManagers.length === 0) {
+                               this.validationMessage = 'Please enter either a Client ID or one Distribution Manager';
+                               return false;
+                           }
+
+                           if (this.searchDTO.client && !/^\d*$/.test(this.searchDTO.client)) {
+                           this.validationMessage = 'Client ID must contain only numbers';
+                           return false;
+                       }
+
+                       return true;
+                       },
+
             gridColumns: [
                     { name: 'Client ID',   width: '120px',  formatter: (cell) => cell || 'N/A' },
                     { name: 'Client Name', width: '120px',  formatter: (cell) => cell || 'N/A' },
@@ -80,22 +97,16 @@ document.addEventListener('alpine:init', () => {
                     }
                   ],
 
-
-            validateSearch() {
-                this.validationMessage = '';
-
-                if (!this.searchDTO.client && this.searchDTO.distributionManagers.length === 0) {
-                    this.validationMessage = 'Please enter either a Client ID or one Distribution Manager';
-                    return false;
-                }
-
-                if (this.searchDTO.client && !/^\d*$/.test(this.searchDTO.client)) {
-                this.validationMessage = 'Client ID must contain only numbers';
-                return false;
-            }
-
-            return true;
-            },
+                mapResultsToGridData(results) {
+                          return results.map(item => [
+                              item.client?.id || '',
+                              item.client?.name || '',
+                              item.dmId || '',
+                              item.dmName || '',
+                              item.month || '',
+                              item.pdf || null
+                          ]);
+                      },
 
 
             searchOdp() {
@@ -112,10 +123,16 @@ document.addEventListener('alpine:init', () => {
 
                     this.validationMessage = '';
 
-                    this.renderGrid();
+                    this.renderGrid(
+                          this.gridColumns,
+                          '/odp/api/odp-result-page',
+                          (results) => this.mapResultsToGridData(results),
+                          this.searchDTO
+                        );
+
                     },
 
-    renderGrid() {
+    renderGrid(gridColumns, paginationUrl, mapResultsFn,postMethodBody) {
 
             if (this.grid) {
                 this.grid.destroy();
@@ -126,12 +143,12 @@ document.addEventListener('alpine:init', () => {
             if (!gridContainer) return;
 
             this.grid = new gridjs.Grid({
-                columns: this.gridColumns,
+                columns: gridColumns,
                 server: {
-                    url: '/odp/api/odp-result-page',
+                    url: paginationUrl,
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(this.searchDTO),
+                    body: JSON.stringify(postMethodBody),
                     then: (data) => {
                        this.loading = false;
 
@@ -156,14 +173,15 @@ document.addEventListener('alpine:init', () => {
                               }, 0);
 
                         }
-                        return this.results.map((item) => [
+                        return mapResultsFn ? mapResultsFn(this.results) : this.results;
+                      /*  return this.results.map((item) => [
                             item.client?.id || '',
                             item.client?.name || '',
                             item.dmId || '',
                             item.dmName || '',
                             item.month || '',
                             item.pdf || null
-                        ]);
+                        ]);*/
                     },
                        total: (data) => data.totalRecords ?? 0
                 },
